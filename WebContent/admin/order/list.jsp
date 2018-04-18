@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <HTML>
 	<HEAD>
 		<meta http-equiv="Content-Language" content="zh-cn">
@@ -8,15 +9,25 @@
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript">
 			function showDetail(oid){
-				var $val = $("#but"+oid).val();
+				var $val = $("#btn_"+oid).val();
 				if($val == "订单详情"){
 					// ajax 显示图片,名称,单价,数量
-					$("#div"+oid).append("<img width='60' height='65' src='${pageContext.request.contextPath}/products/1/c_0028.jpg'>&nbsp;xxxx&nbsp;998<br/>");
-					
-					$("#but"+oid).val("关闭");
+					$.ajax({
+						url:"${pageContext.request.contextPath}/adminOrderServlet",
+						method:"POST",
+						data:"method=getOrderItemsByOid&oid="+oid,
+						dataType:"json",
+						success:function(data){
+							$.each(data,function(i,e){
+								var html = "<img width='60' height='65' src='"+e.product.pimage+"'>&nbsp;<p>"+e.product.pname+"&nbsp;"+e.product.shop_price+"&nbsp;"+e.count+"</p><br/>";
+								$("#div_"+oid).append(html);
+							});
+						}
+					});
+					$("#btn_"+oid).val("关闭");
 				}else{
-					$("#div"+oid).html("");
-					$("#but"+oid).val("订单详情");
+					$("#div_"+oid).html("");
+					$("#btn_"+oid).val("订单详情");
 				}
 			}
 		</script>
@@ -59,36 +70,48 @@
 										订单详情
 									</td>
 								</tr>
-										<tr onmouseover="this.style.backgroundColor = 'white'"
-											onmouseout="this.style.backgroundColor = '#F5FAFE';">
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="18%">
-												1
-											</td>
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="17%">
-												BH1234356
-											</td>
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="17%">
-												998
-											</td>
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="17%">
-												张XX
-											</td>
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="17%">
-													1=未付款、2=发货、3=已发货、4=订单完成
-											</td>
-											<td align="center" style="HEIGHT: 22px">
-												<input type="button" value="订单详情" id="but${o.oid}" onclick="showDetail('${o.oid}')"/>
-												<div id="div${o.oid}">
-													
-												</div>
-											</td>
-							
-										</tr>
+							    <c:forEach items="${list}" var="o" varStatus="status">
+									<tr onmouseover="this.style.backgroundColor = 'white'"
+										onmouseout="this.style.backgroundColor = '#F5FAFE';">
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="18%">
+											${status.index+1}
+										</td>
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="17%">
+											${o.oid}
+										</td>
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="17%">
+											${o.total}
+										</td>
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="17%">
+											${o.name}
+										</td>
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="17%">
+												<c:if test="${o.state==1}">
+													未付款
+												</c:if>
+												<c:if test="${o.state==2}">
+													未发货
+												</c:if>
+												<c:if test="${o.state==3}">
+													未签收
+												</c:if>
+												<c:if test="${o.state==4}">
+													已完成
+												</c:if>
+										</td>
+										<td align="center" style="HEIGHT: 22px">
+											<input type="button" value="订单详情" id="btn_${o.oid}" onclick="showDetail('${o.oid}')"/>
+											<div id="div_${o.oid}">
+												
+											</div>
+										</td>
+									</tr>
+								</c:forEach>
 							</table>
 						</td>
 					</tr>

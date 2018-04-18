@@ -48,4 +48,41 @@ public class ProductServiceImpl implements ProductService {
 		return pageBean;
 	}
 
+	@Override
+	public PageBean<Product> adminPageProduct(int page, int pageSize) throws Exception {
+		Long count = productDAO.findCountByPage();
+		List<Product> list = productDAO.findListByPage((page-1) * pageSize, pageSize);
+		
+		int totalPage = (int) Math.ceil(count.doubleValue()/pageSize);
+		PageBean<Product> pageBean = new PageBean<Product>();
+		pageBean.setPage(page);
+		pageBean.setPageSize(pageSize);
+		pageBean.setData(list);
+		pageBean.setTotalPage(totalPage);
+		pageBean.setCount(count);
+		return pageBean;
+	}
+
+	@Override
+	public void update(Product product) throws Exception {
+		productDAO.update(product);
+	}
+
+	@Override
+	public void add(Product product) throws Exception {
+		productDAO.add(product);
+		
+	}
+
+	@Override
+	public void changeShelve(String pid, int pflag) throws Exception {
+		productDAO.changeShelve(pid, pflag);
+	}
+
+	@Override
+	public List<Product> findDownProducts() throws Exception {
+		List<Product> list = productDAO.findDownProducts();
+		return list;
+	}
+
 }

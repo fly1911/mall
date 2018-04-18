@@ -1,5 +1,7 @@
 package com.mall.service;
 
+import java.util.List;
+
 import com.mall.pojo.Orders;
 import com.mall.pojo.PageBean;
 
@@ -40,4 +42,14 @@ public interface OrdersService {
 	 * desc:查询用户订单
 	 */
 	public PageBean<Orders> findUserOrders(String uid, int page, int pageSize) throws Exception;
+
+	/**
+	 * 
+	 * @author bo
+	 * @date 2018年4月18日
+	 * @version 1.0
+	 * desc:根据订单状态获取订单集合
+	 */
+	public List<Orders> findOrderList(int...state) throws Exception;
+	
 }

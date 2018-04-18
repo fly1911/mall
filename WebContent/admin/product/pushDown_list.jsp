@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <HTML>
 	<HEAD>
 		<meta http-equiv="Content-Language" content="zh-cn">
@@ -7,7 +8,7 @@
 		<script language="javascript" src="${pageContext.request.contextPath}/js/public.js"></script>
 		<script type="text/javascript">
 			function addProduct(){
-				window.location.href = "${pageContext.request.contextPath}/AdminProductServlet?method=saveUI";
+				window.location.href = "${pageContext.request.contextPath}/adminProductServlet?method=pageProduct";
 			}
 		</script>
 	</HEAD>
@@ -56,35 +57,41 @@
 										上架
 									</td>
 								</tr>
+									<c:forEach items="${products}" var="p" varStatus="status">
 										<tr onmouseover="this.style.backgroundColor = 'white'"
 											onmouseout="this.style.backgroundColor = '#F5FAFE';">
 											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
 												width="18%">
-												1
+												${status.index+1}
 											</td>
 											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
 												width="17%">
-												<img width="40" height="45" src="${ pageContext.request.contextPath }/products/1/c_0037.jpg">
+												<img width="40" height="45" src="${p.pimage}">
 											</td>
 											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
 												width="17%">
-												笔记本
+												${p.pname}
 											</td>
 											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
 												width="17%">
-												998
+												${p.shop_price}
 											</td>
 											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
 												width="17%">
-													是(1)/否(0)
+												<c:if test="${p.is_hot==1}">
+													是
+												</c:if>
+												<c:if test="${p.is_hot==0}">
+													否
+												</c:if>
 											</td>
 											<td align="center" style="HEIGHT: 22px">
-												<a href="#">
-													<img src="${pageContext.request.contextPath}/img/admin/i_edit.gif" border="0" style="CURSOR: hand">
+												<a href="${pageContext.request.contextPath}/adminProductServlet?method=changeShelve&pid=${p.pid}&pflag=0">
+													<img src="${pageContext.request.contextPath}/img/admin/i_ok.gif" border="0" style="CURSOR: hand">
 												</a>
 											</td>
-									
 										</tr>
+									</c:forEach>
 							</table>
 						</td>
 					</tr>

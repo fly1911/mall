@@ -1,8 +1,6 @@
 package com.mall.dao.impl;
 
-import java.sql.SQLException;
 import java.util.List;
-
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -53,6 +51,19 @@ public class OrdersDAOImpl implements OrdersDAO {
 		String sql = "select count(*) from orders where uid=?";
 		long count = (long) runner.query(sql, new ScalarHandler(),uid);
 		return count;
+	}
+
+	@Override
+	public List<Orders> findOrderList(int...state) throws Exception {
+		
+		String sql = "select * from orders where state=? order by ordertime desc";
+		if (state.length == 0) {
+			sql = "select * from orders order by ordertime desc";
+			List<Orders> orders = runner.query(sql, new BeanListHandler<Orders>(Orders.class));
+			return orders;
+		}
+		List<Orders> orders = runner.query(sql, new BeanListHandler<Orders>(Orders.class), state[0]);
+		return orders;
 	}
 
 }

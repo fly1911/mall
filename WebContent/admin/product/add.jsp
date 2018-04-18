@@ -4,11 +4,12 @@
 		<meta http-equiv="Content-Language" content="zh-cn">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<LINK href="${pageContext.request.contextPath}/css/Style1.css" type="text/css" rel="stylesheet">
+		<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js" type="text/javascript"></script>
 	</HEAD>
 	
 	<body>
 		<!--  -->
-		<form id="userAction_save_do" name="Form1" action="${pageContext.request.contextPath}/AddProductServlet" method="post" enctype="multipart/form-data">
+		<form id="userAction_save_do" name="Form1" action="${pageContext.request.contextPath}/adminProductServlet?method=add" method="post" enctype="multipart/form-data">
 			&nbsp;
 			<table cellSpacing="1" cellPadding="5" width="100%" align="center" bgColor="#eeeeee" style="border: 1px solid #8ba7e3" border="0">
 				<tr>
@@ -54,7 +55,7 @@
 						商品图片：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<input type="file" name="upload" />
+						<input type="file" name="pimage" />
 					</td>
 				</tr>
 				<tr>
@@ -62,10 +63,10 @@
 						所属的分类：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<select name="cid">
-								<option value="1">服装</option>
+						<select name="cid" id="category_select">
+								<!-- <option value="1">服装</option>
 								<option value="2">服装2</option>
-								<option value="3">服装3</option>
+								<option value="3">服装3</option> -->
 						</select>
 					</td>
 				</tr>
@@ -95,4 +96,20 @@
 			</table>
 		</form>
 	</body>
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/categoryServlet",
+			method:"POST",
+			data:"method=list",
+			dataType:"json",
+			success:function(data){
+				$.each(data,function(i,e){
+					var html = "<option value='"+e.cid+"'>"+e.cname+"</option>"
+					$("#category_select").append(html);	
+				});
+			}
+		});
+	});
+</script>
 </HTML>

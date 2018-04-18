@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <HTML>
 	<HEAD>
 		<meta http-equiv="Content-Language" content="zh-cn">
@@ -49,28 +50,32 @@
 										删除
 									</td>
 								</tr>
-										<tr onmouseover="this.style.backgroundColor = 'white'"
-											onmouseout="this.style.backgroundColor = '#F5FAFE';">
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="18%">
-												1
-											</td>
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="17%">
-												服装
-											</td>
-											<td align="center" style="HEIGHT: 22px">
-												<a href="edit.jsp">
-													<img src="${pageContext.request.contextPath}/img/admin/i_edit.gif" border="0" style="CURSOR: hand">
-												</a>
-											</td>
-									
-											<td align="center" style="HEIGHT: 22px">
-												<a href="#">
-													<img src="${pageContext.request.contextPath} /i_del.gif" width="16" height="16" border="0" style="CURSOR: hand">
-												</a>
-											</td>
-										</tr>
+								
+								<c:forEach items="${list}" var="item">
+									<tr onmouseover="this.style.backgroundColor = 'white'"
+										onmouseout="this.style.backgroundColor = '#F5FAFE';">
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="18%">
+											${item.cid}
+										</td>
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="17%">
+											${item.cname}
+										</td>
+										<td align="center" style="HEIGHT: 22px">
+											<a href="${pageContext.request.contextPath}/categoryServlet?method=edit&cid=${item.cid}">
+												<img src="${pageContext.request.contextPath}/img/admin/i_edit.gif" border="0" style="CURSOR: hand">
+											</a>
+										</td>
+								
+										<td align="center" style="HEIGHT: 22px">
+											<a href="${pageContext.request.contextPath}/categoryServlet?method=del&cid=${item.cid}">
+												<img src="${pageContext.request.contextPath}/img/admin/i_del.gif" width="16" height="16" border="0" style="CURSOR: hand">
+											</a>
+										</td>
+									</tr>
+								</c:forEach>
+								
 							</table>
 						</td>
 					</tr>

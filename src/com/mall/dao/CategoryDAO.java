@@ -14,5 +14,41 @@ public interface CategoryDAO {
 	 * desc:查询所有分类
 	 */
 	List<Category> list() throws Exception;
+	
+	/**
+	 * 
+	 * @author bo
+	 * @date 2018年4月17日
+	 * @version 1.0
+	 * desc:获取单个商品
+	 */
+	public Category get(String id) throws Exception;
+	
+	/**
+	 * 
+	 * @author bo
+	 * @date 2018年4月17日
+	 * @version 1.0
+	 * desc:新增分类
+	 */
+	public void add(Category category) throws Exception;
+	
+	/**
+	 * 
+	 * @author bo
+	 * @date 2018年4月17日
+	 * @version 1.0
+	 * desc:删除分类
+	 */
+	public void del(String id) throws Exception; 
+	
+	/**
+	 * 
+	 * @author bo
+	 * @date 2018年4月17日
+	 * @version 1.0
+	 * desc:编辑分类
+	 */
+	public void update(Category category) throws Exception;
 
 }

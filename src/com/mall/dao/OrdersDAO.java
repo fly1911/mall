@@ -52,4 +52,13 @@ public interface OrdersDAO {
 	 */
 	public long findCountByUser(String uid) throws Exception;
 
+	/**
+	 * 
+	 * @author bo
+	 * @date 2018年4月18日
+	 * @version 1.0
+	 * desc:根据订单状态获取订单集合
+	 */
+	public List<Orders> findOrderList(int...state) throws Exception;
+
 }

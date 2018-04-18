@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <HTML>
 	<HEAD>
 		<meta http-equiv="Content-Language" content="zh-cn">
@@ -59,67 +60,75 @@
 										下架
 									</td>
 								</tr>
-										<tr onmouseover="this.style.backgroundColor = 'white'"
-											onmouseout="this.style.backgroundColor = '#F5FAFE';">
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="18%">
-												${ status.count }
-											</td>
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="17%">
-												<img width="40" height="45" src="${ pageContext.request.contextPath }/products/1/c_0037.jpg">
-											</td>
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="17%">
-												${ p.pname }
-											</td>
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="17%">
-												${ p.shop_price }
-											</td>
-											<td style="CURSOR: hand; HEIGHT: 22px" align="center"
-												width="17%">
-													是(1)/否(0)
-											</td>
-											<td align="center" style="HEIGHT: 22px">
-												<a href="">
-													<img src="${pageContext.request.contextPath}//img/admin/i_edit.gif" border="0" style="CURSOR: hand">
-												</a>
-											</td>
-									
-											<td align="center" style="HEIGHT: 22px">
-												<%--下架 pushdown --%>
-												<a href="${pageContext.request.contextPath}/">
-													<img src="${pageContext.request.contextPath}/ /i_del.gif" width="16" height="16" border="0" style="CURSOR: hand">
-												</a>
-											</td>
-										</tr>
+								<c:forEach items="${page.data}" var="p" varStatus="status">
+									<tr onmouseover="this.style.backgroundColor = 'white'"
+										onmouseout="this.style.backgroundColor = '#F5FAFE';">
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="18%">
+											${status.index+1}
+										</td>
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="17%">
+											<img width="40" height="45" src="${p.pimage}">
+										</td>
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="17%">
+											${ p.pname }
+										</td>
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="17%">
+											${ p.shop_price }
+										</td>
+										<td style="CURSOR: hand; HEIGHT: 22px" align="center"
+											width="17%">
+												<c:if test="${p.is_hot==1}">
+													是
+												</c:if>
+												<c:if test="${p.is_hot==0}">
+													否
+												</c:if>
+										</td>
+										<td align="center" style="HEIGHT: 22px">
+											<a href="${pageContext.request.contextPath}/adminProductServlet?method=edit&pid=${p.pid}">
+												<img src="${pageContext.request.contextPath}/img/admin/i_edit.gif" border="0" style="CURSOR: hand">
+											</a>
+										</td>
+								
+										<td align="center" style="HEIGHT: 22px">
+											<%--下架 pushdown --%>
+											<a href="${pageContext.request.contextPath}/adminProductServlet?method=changeShelve&pid=${p.pid}&pflag=1">
+												<img src="${pageContext.request.contextPath}/img/admin/i_del.gif" width="16" height="16" border="0" style="CURSOR: hand">
+											</a>
+										</td>
+									</tr>
+								
+								</c:forEach>
 							</table>
 						</td>
 					</tr>
 					<tr align="center">
 						<td colspan="7">
-							第${ pageBean.currPage }/${ pageBean.totalPage }页 &nbsp; &nbsp; &nbsp;
-							总记录数:${ pageBean.totalCount }  &nbsp; 每页显示:${ pageBean.pageSize }
-							<c:if test="${ pageBean.currPage != 1 }">
-								<a href="${ pageContext.request.contextPath }/AdminProductServlet?method=findByPage&currPage=1">首页</a>|
-								<a href="${ pageContext.request.contextPath }/AdminProductServlet?method=findByPage&currPage=${ pageBean.currPage - 1}">上一页</a>|
+							第${ page.page }/${ page.totalPage }页 &nbsp; &nbsp; &nbsp;
+							总记录数:${ page.count }  &nbsp; 每页显示:${ page.pageSize }
+							<c:if test="${ page.page != 1 }">
+								<a href="${ pageContext.request.contextPath }/adminProductServlet?method=pageProduct&page=1">首页</a>|
+								<a href="${ pageContext.request.contextPath }/adminProductServlet?method=pageProduct&page=${ page.page - 1}">上一页</a>|
 							</c:if>
 							&nbsp; &nbsp;
 							
-							<c:forEach var="i" begin="1" end="${ pageBean.totalPage }">
-								<c:if test="${ pageBean.currPage == i }">
-									[${ i }]
+							<c:forEach var="i" begin="1" end="${ page.totalPage }">
+								<c:if test="${ page.page == i }">
+									<font style="color:red;">[${ i }]</font>
 								</c:if>
-								<c:if test="${ pageBean.currPage != i }">
-									<a href="${ pageContext.request.contextPath }/AdminProductServlet?method=findByPage&currPage=${ i}">[${ i }]</a>
+								<c:if test="${ page.page != i }">
+									<a href="${ pageContext.request.contextPath }/adminProductServlet?method=pageProduct&page=${ i}">[${ i }]</a>
 								</c:if>
 							</c:forEach>
 							
 							&nbsp; &nbsp;
-							<c:if test="${ pageBean.currPage != pageBean.totalPage }">
-								<a href="${ pageContext.request.contextPath }/AdminProductServlet?method=findByPage&currPage=${ pageBean.currPage + 1}">下一页</a>|
-								<a href="${ pageContext.request.contextPath }/AdminProductServlet?method=findByPage&currPage=${ pageBean.totalPage}">尾页</a>|
+							<c:if test="${ page.page != page.totalPage }">
+								<a href="${ pageContext.request.contextPath }/adminProductServlet?method=pageProduct&page=${ page.page + 1}">下一页</a>|
+								<a href="${ pageContext.request.contextPath }/adminProductServlet?method=pageProduct&page=${ page.totalPage}">尾页</a>|
 							</c:if>	
 						</td>
 					</tr>

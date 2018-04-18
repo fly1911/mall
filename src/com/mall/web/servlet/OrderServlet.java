@@ -36,6 +36,7 @@ public class OrderServlet extends BaseServlet {
 	 * @date 2018年4月16日
 	 * @version 1.0 desc:生成订单
 	 */
+	@SuppressWarnings("unchecked")
 	public String saveOrder(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		HttpSession session = request.getSession();

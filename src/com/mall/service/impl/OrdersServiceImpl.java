@@ -59,4 +59,12 @@ public class OrdersServiceImpl implements OrdersService {
 		pageBean.setCount(count);
 		return pageBean;
 	}
+
+	@Override
+	public List<Orders> findOrderList(int...state) throws Exception {
+		List<Orders> list = ordersDAO.findOrderList(state);
+		return list;
+	}
+	
+	
 }

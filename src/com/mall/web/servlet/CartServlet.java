@@ -28,6 +28,7 @@ public class CartServlet extends BaseServlet {
 	 * @date 2018年4月16日
 	 * @version 1.0 desc:添加商品到购物车
 	 */
+	@SuppressWarnings("unchecked")
 	public void addProductToCart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// 结果：1成功，2未登录，3失败
@@ -87,6 +88,7 @@ public class CartServlet extends BaseServlet {
 	 * @date 2018年4月16日
 	 * @version 1.0 desc:购物车列表
 	 */
+	@SuppressWarnings("unchecked")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		List<CartItem> items = (List<CartItem>) request.getSession().getAttribute(CART_SESSION_NAME);
@@ -119,6 +121,7 @@ public class CartServlet extends BaseServlet {
 	 * @date 2018年4月16日
 	 * @version 1.0 desc:删除购物车项
 	 */
+	@SuppressWarnings("unchecked")
 	public void delCartItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		response.setContentType("text/html;charset=UTF-8");
@@ -163,6 +166,7 @@ public class CartServlet extends BaseServlet {
 	 * @date 2018年4月16日
 	 * @version 1.0 desc:更新购物车
 	 */
+	@SuppressWarnings("unchecked")
 	public void updateCart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// 结果：1成功，2未登录，3失败

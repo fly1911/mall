@@ -3,12 +3,11 @@ package com.mall.test;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.mall.pojo.Category;
 import com.mall.service.impl.CategoryServiceImpl;
 
 public class CategoryServiceImplTest {
 
+	@SuppressWarnings("rawtypes")
 	@Test
 	public void testList() throws Exception {
 		CategoryServiceImpl categoryServiceImpl = new CategoryServiceImpl();
